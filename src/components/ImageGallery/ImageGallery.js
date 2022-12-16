@@ -13,9 +13,9 @@ export default function ImageGallery({searchImages}) {
   const [page, setPage] = useState(1);
 
   useEffect(() => {
+  
     if (searchImages !== '') {
-      console.log(images)
-      setLoading(true)
+     setLoading(true)
 
       const URL = 'https://pixabay.com/api/';
       const key = '30502346-d120979d6222d217ab4c63b0e';
