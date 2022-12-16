@@ -15,7 +15,8 @@ export default function ImageGallery({searchImages}) {
   useEffect(() => {
     if (searchImages !== '') {
       console.log(searchImages)
-      loadImages();
+      setLoading(true)
+      {loadImages()}
       }
 
     }, [searchImages, page])
@@ -25,10 +26,9 @@ export default function ImageGallery({searchImages}) {
    setPage(state => state + 1)
    };
 
- const loadImages = async () => {
+ const loadImages = () => {
     const URL = 'https://pixabay.com/api/';
     const key = '30502346-d120979d6222d217ab4c63b0e';
-   await setLoading(true)
    console.log(loading)
     fetch(
       `${URL}?key=${key}&q=${searchImages}&image_type=photo&orientation=horizontal&per_page=12&page=${page}`
