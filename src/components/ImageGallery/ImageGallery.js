@@ -13,12 +13,23 @@ export default function ImageGallery({searchImages}) {
   const [page, setPage] = useState(1);
 
   useEffect(() => {
-  
     if (searchImages !== '') {
-     setLoading(true)
+      console.log(searchImages)
+      loadImages();
+      }
 
-      const URL = 'https://pixabay.com/api/';
-      const key = '30502346-d120979d6222d217ab4c63b0e';
+    }, [searchImages, page])
+
+ const loadMore = () => {
+    console.log(page);
+   setPage(state => state + 1)
+   };
+
+ const loadImages = async () => {
+    const URL = 'https://pixabay.com/api/';
+    const key = '30502346-d120979d6222d217ab4c63b0e';
+   await setLoading(true)
+   console.log(loading)
     fetch(
       `${URL}?key=${key}&q=${searchImages}&image_type=photo&orientation=horizontal&per_page=12&page=${page}`
     )
@@ -32,15 +43,7 @@ export default function ImageGallery({searchImages}) {
         toast.error('Error while loading data. Try again later.')
       )
       .finally(setLoading(false));
-      }
-
-    }, [searchImages, page])
-
- const loadMore = () => {
-    console.log(page);
-   setPage(state => state + 1)
-   };
-
+  };
 
   return (
     <>
