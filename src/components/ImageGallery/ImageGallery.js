@@ -14,9 +14,7 @@ export default function ImageGallery({searchImages}) {
 
   useEffect(() => {
     if (searchImages !== '') {
-      console.log(searchImages)
-      setImages('')
-      setPage(1)
+      console.log(images)
       setLoading(true)
 
       const URL = 'https://pixabay.com/api/';
@@ -61,7 +59,7 @@ export default function ImageGallery({searchImages}) {
       </Gallery>
       <ToastContainer />
       {loading && <Loader />}
-      {images.length >= 12 && <Button onClick={() => loadMore} />}
+      {images.length >= 12 && <Button onClick={loadMore} />}
     </>
   );
 
