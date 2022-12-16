@@ -11,28 +11,16 @@ export default function ImageGallery({searchImages}) {
   const [images, setImages] = useState('');
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
-  const [error, setError] = useState('');
 
   useEffect(() => {
     if (searchImages !== '') {
       console.log(searchImages)
       setImages('')
       setPage(1)
-      loadImages();
-      }
+      setLoading(true)
 
-    }, [searchImages, page])
-
- const loadMore = () => {
-    console.log(page);
-   setPage(state => state + 1)
-   };
-
- const loadImages = async () => {
-    const URL = 'https://pixabay.com/api/';
-    const key = '30502346-d120979d6222d217ab4c63b0e';
-    await setLoading(true)
-
+      const URL = 'https://pixabay.com/api/';
+      const key = '30502346-d120979d6222d217ab4c63b0e';
     fetch(
       `${URL}?key=${key}&q=${searchImages}&image_type=photo&orientation=horizontal&per_page=12&page=${page}`
     )
@@ -43,10 +31,18 @@ export default function ImageGallery({searchImages}) {
            else toast.error('Oops! No matches found.');
       })
       .catch(error =>
-       setError('Error while loading data. Try again later.')
+        toast.error('Error while loading data. Try again later.')
       )
       .finally(setLoading(false));
-  };
+      }
+
+    }, [searchImages, page])
+
+ const loadMore = () => {
+    console.log(page);
+   setPage(state => state + 1)
+   };
+
 
   return (
     <>
@@ -65,7 +61,7 @@ export default function ImageGallery({searchImages}) {
       </Gallery>
       <ToastContainer />
       {loading && <Loader />}
-      {images.length >= 12 && <Button onClick={loadMore} />}
+      {images.length >= 12 && <Button onClick={() => loadMore} />}
     </>
   );
 
