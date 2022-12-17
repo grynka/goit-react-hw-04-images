@@ -26,7 +26,6 @@ export default function ImageGallery({searchImages}) {
      function loadImages() {
         const URL = 'https://pixabay.com/api/';
         const key = '30502346-d120979d6222d217ab4c63b0e';
-         setLoading(true)
         fetch(
           `${URL}?key=${key}&q=${searchImages}&image_type=photo&orientation=horizontal&per_page=12&page=${page}`
         )
@@ -41,8 +40,9 @@ export default function ImageGallery({searchImages}) {
           )
           .finally(setLoading(false));
       };
-
+      setLoading(true)
       loadImages()
+
       }
 
     }, [searchImages, page])
