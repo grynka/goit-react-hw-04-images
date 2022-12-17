@@ -5,13 +5,9 @@ import { useState } from 'react';
 export default function App() {
   const [searchImages, setSearchImages] = useState('')
 
-  const handleFormSubmit = ({ searchRequest }) => {
-   setSearchImages(searchRequest);
-  };
-
   return (
       <>
-        <Searchbar onSubmit={handleFormSubmit} />
+        <Searchbar onSubmit={setSearchImages} />
         <ImageGallery searchImages={searchImages} />
       </>
     );

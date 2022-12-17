@@ -10,7 +10,7 @@ import { ImSearch } from 'react-icons/im';
 import 'react-toastify/dist/ReactToastify.css';
 import { useState } from 'react';
 
-export default function Searchbar({ onSubmit }) {
+export default function Searchbar( {onSubmit} ) {
   const [searchRequest, setSearchRequest] = useState('')
 
   const handleRequestChange = event => {
@@ -26,8 +26,8 @@ export default function Searchbar({ onSubmit }) {
         return;
       }
       
-     onSubmit(searchRequest);
-
+      onSubmit(searchRequest)
+      setSearchRequest('')
     };
 
 
