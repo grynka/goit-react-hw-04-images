@@ -8,42 +8,32 @@ import {
 import { toast, ToastContainer } from 'react-toastify';
 import { ImSearch } from 'react-icons/im';
 import 'react-toastify/dist/ReactToastify.css';
-const { Component } = require('react');
+import { useState } from 'react';
 
-export default class Searchbar extends Component {
-  state = {
-    searchRequest: '',
-  };
-  handleRequestChange = event => {
-    this.setState({
-      searchRequest: event.currentTarget.value,
-    });
-  };
+export default function Searchbar({ onSubmit }) {
+  const [searchRequest, setSearchRequest] = useState('')
 
-  handleSubmit = event => {
-    event.preventDefault();
-
-    if (this.state.searchRequest.trim() === '') {
-      toast.error('Enter search query.');
-      return;
+  const handleRequestChange = event => {
+    setSearchRequest(event.currentTarget.value.toLowerCase())
     }
 
-    this.props.onSubmit({
-      searchRequest: this.state.searchRequest,
-    });
-    this.reset();
-  };
+  const handleSubmit = event => {
+      event.preventDefault();
+  
+      if (searchRequest.trim() === '') {
+        toast.error('Enter search query.');
+        setSearchRequest('')
+        return;
+      }
+      
+     onSubmit(searchRequest);
 
-  reset = () => {
-    this.setState({
-      searchRequest: '',
-    });
-  };
+    };
 
-  render() {
+
     return (
       <Searchbars>
-        <SearchForm onSubmit={this.handleSubmit}>
+        <SearchForm onSubmit={handleSubmit}>
           <Button type="submit" className="button">
             <ImSearch />
             <Label>Search</Label>
@@ -55,13 +45,12 @@ export default class Searchbar extends Component {
             autoComplete="off"
             autoFocus
             placeholder="Search images and photos"
-            value={this.state.searchRequest}
-            onChange={this.handleRequestChange}
+            value={searchRequest}
+            onChange={handleRequestChange}
           />
         </SearchForm>
         <ToastContainer />
       </Searchbars>
       
     );
-  }
 }

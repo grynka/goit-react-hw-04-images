@@ -13,26 +13,23 @@ export default function ImageGallery({searchImages}) {
   const [page, setPage] = useState(1);
 
   useEffect(() => {
-    async function reset() {
-    await setPage(1);
-    setImages('');
-    }
-   reset()
+setPage(1);
+setImages('');
   }, [searchImages])
 
   useEffect(() => {
     if (searchImages !== '') {
-      console.log("ef2-"+page)
-     function loadImages() {
+   async function loadImages(searchImages, page) {
+      setLoading(true)
         const URL = 'https://pixabay.com/api/';
         const key = '30502346-d120979d6222d217ab4c63b0e';
-        fetch(
+        await  fetch(
           `${URL}?key=${key}&q=${searchImages}&image_type=photo&orientation=horizontal&per_page=12&page=${page}`
         )
           .then(res => res.json())
-          .then(data => {
+          .then(data => { 
             if (data.totalHits > 0)
-            setImages(state => [...state, ...data.hits])
+           setImages(state => [...state, ...data.hits])
                else toast.error('Oops! No matches found.');
           })
           .catch(error =>
@@ -40,10 +37,8 @@ export default function ImageGallery({searchImages}) {
           )
           .finally(setLoading(false));
       };
-      setLoading(true)
-      loadImages()
-
-      }
+      loadImages(searchImages, page)
+}
 
     }, [searchImages, page])
 
