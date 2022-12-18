@@ -4,12 +4,13 @@ import Loader from './Loader/Loader';
 import Button from './Button/Button';
 import { useState, useEffect } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { loadImages } from 'service/API';
 
 
 export default function App() {
   const [searchImages, setSearchImages] = useState('');
-  const [images, setImages] = useState('');
+  const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
 
@@ -45,20 +46,17 @@ export default function App() {
   };
 
   const onSubmit = event => {
-    evt.preventDefault();
-    const input = evt.target.elements.search;
+    event.preventDefault();
+    const input = event.target.elements.search;
     const value = input.value.trim();
-    const page = 1;
 
     if (value === '') {
-      toast.error("You didn't enter anything!");
+      toast.error(`You didn't enter anything!`);
       return;
     }
 
-    setQuery(value);
-    setPage(page);
-    setError(false);
-
+    setSearchImages(value);
+    setPage(1);
   }
 
   return (

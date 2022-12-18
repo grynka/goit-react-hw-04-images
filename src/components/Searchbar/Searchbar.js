@@ -22,6 +22,7 @@ export default function Searchbar( {onSubmit} ) {
             autoComplete="off"
             autoFocus
             placeholder="Search images and photos"
+            name="search"
           />
         </SearchForm>
       </Searchbars>
