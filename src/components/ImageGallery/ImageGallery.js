@@ -1,50 +1,8 @@
 import ImageGalleryItem from 'components/ImageGalleryItem/ImageGalleryItem';
 import { Gallery } from './ImageGallery.styled';
-import { useEffect, useState } from 'react';
-import Loader from 'components/Loader/Loader';
-import Button from 'components/Button/Button';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import PropTypes from 'prop-types';
 
-export default function ImageGallery({ searchImages }) {
-  const [images, setImages] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(1);
-
-  useEffect(() => {
-    setImages('');
-    setPage(1);
-  }, [searchImages]);
-
-  useEffect(() => {
-    if (searchImages !== '') {
-      async function loadImages() {
-        await setLoading(true);
-        const URL = 'https://pixabay.com/api/';
-        const key = '30502346-d120979d6222d217ab4c63b0e';
-        fetch(
-          `${URL}?key=${key}&q=${searchImages}&image_type=photo&orientation=horizontal&per_page=12&page=${page}`
-        )
-          .then(res => res.json())
-          .then(data => {
-            if (data.totalHits > 0)
-              setImages(state => [...state, ...data.hits]);
-            else toast.error('Oops! No matches found.');
-          })
-          .catch(error =>
-            toast.error('Error while loading data. Try again later.')
-          )
-          .finally(setLoading(false));
-      }
-      loadImages();
-    }
-  }, [searchImages, page]);
-
-  const loadMore = () => {
-    setPage(state => state + 1);
-  };
-
+export default function ImageGallery({ images }) {
   return (
     <>
       <Gallery className="gallery">
@@ -60,13 +18,17 @@ export default function ImageGallery({ searchImages }) {
             );
           })}
       </Gallery>
-      <ToastContainer />
-      {loading && <Loader />}
-      {images.length >= 12 && <Button onClick={loadMore} />}
     </>
   );
 }
 
+
 ImageGallery.propTypes = {
-  searchImages: PropTypes.string.isRequired,
-};
+  images: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      webformatURL: PropTypes.string.isRequired,
+      tags: PropTypes.string.isRequired,
+      largeImageURL: PropTypes.string.isRequired,
+    })
+  ).isRequired}
