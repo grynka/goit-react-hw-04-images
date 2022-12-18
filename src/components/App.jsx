@@ -44,9 +44,26 @@ export default function App() {
     setPage(prevPage => prevPage + 1);
   };
 
+  const onSubmit = event => {
+    evt.preventDefault();
+    const input = evt.target.elements.search;
+    const value = input.value.trim();
+    const page = 1;
+
+    if (value === '') {
+      toast.error("You didn't enter anything!");
+      return;
+    }
+
+    setQuery(value);
+    setPage(page);
+    setError(false);
+
+  }
+
   return (
     <>
-      <Searchbar onSubmit={setSearchImages} />
+      <Searchbar onSubmit={onSubmit} />
       <ToastContainer />
       <ImageGallery images={images} />
       {images && images.length >= 12 && <Button onClick={loadMore} />}
